@@ -11,6 +11,16 @@ const loginForm = document.querySelector('#welcome-form'),
 
 let userName;
 
+// Listners
+loginForm.addEventListener('submit', event => login(event));
+addMessageForm.addEventListener('submit', event => sendMessage(event));
+
+// Socket IO
+const socket = io();
+socket.on('message', ({ author, content }) => addMessage(author, content));
+
+// Functions
+
 function login(event) {
   event.preventDefault();
   if(userNameInput.value) {
@@ -26,6 +36,7 @@ function sendMessage(event) {
   event.preventDefault();
   if (messageContentInput.value) {
     addMessage(userName, messageContentInput.value);
+    socket.emit('message', { author: userName, content: messageContentInput.value });
     messageContentInput.value = '';
   } else {
     window.alert('Please, type your message first');
@@ -52,6 +63,4 @@ function addMessage(author, content) {
   messagesList.appendChild(message);
 };
 
-// Listners
-loginForm.addEventListener('submit', event => login(event));
-addMessageForm.addEventListener('submit', event => sendMessage(event));
+
