@@ -7,3 +7,17 @@ const loginForm = document.querySelector('#welcome-form'), // referencja do form
   userNameInput = document.querySelector('#username'), //referencja do pola tekstowego z formularza logowania.
   messageContentInput = document.querySelector('#message-content'); //referencja do pola tekstowego z formularza do wysyłania
 
+let userName;
+
+function login(event) {
+  event.preventDefault();
+  if(userNameInput.value) {
+    userName = userNameInput.value;
+    loginForm.classList.remove('show');
+    messagesSection.classList.add('show');
+  } else {
+    window.alert('Please, fill in your username');
+  }
+};
+
+loginForm.addEventListener('submit', event => login(event));
